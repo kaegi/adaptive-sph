@@ -1,0 +1,22 @@
+- time: 20.0
+  config_path: ../default-config.yaml
+  visualized_attribute: MinDistanceToNeighbor
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    support_length_estimation: FromDistributionClamped1
+  title: "Distance to neighbors (distribution-based s.l.)"
+  scene_file: "scene-ratio2to1.yaml"
+  png_file: "distance-neighbor-from-distribution.png"
+- time: 20.0
+  config_path: ../default-config.yaml
+  visualized_attribute: MinDistanceToNeighbor
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    support_length_estimation: FromMass
+  title: "Distance to neighbors (mass-based smoothing length)"
+  scene_file: "scene-ratio2to1.yaml"
+  png_file: "distance-neighbor-from-mass.png"

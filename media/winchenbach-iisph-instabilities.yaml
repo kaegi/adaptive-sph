@@ -1,0 +1,51 @@
+- time: 20
+  panic_on_end: true
+  export_when_mii_negative: true 
+  config_path: ../default-config.yaml
+  legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: Pressure
+  title: "Pressure values"
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    pressure_solver_method: IISPH
+    operator_discretization: Winchenbach2020
+    max_dt: 0.001
+  scene_file: "winchenbach-instable-scene.yaml"
+  png_file: "winchenbach-instabilities-pressure.png"
+- time: 20
+  panic_on_end: true
+  export_when_mii_negative: true 
+  config_path: ../default-config.yaml
+  legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: Aii
+  title: "Diagonal elements"
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    pressure_solver_method: IISPH
+    operator_discretization: Winchenbach2020
+    max_dt: 0.001
+  scene_file: "winchenbach-instable-scene.yaml"
+  png_file: "winchenbach-instabilities-mii.png"
+- time: 20
+  panic_on_end: true
+  export_when_mii_negative: true 
+  config_path: ../default-config.yaml
+  legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: SourceTerm
+  title: "Source terms"
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    pressure_solver_method: IISPH
+    operator_discretization: Winchenbach2020
+    max_dt: 0.001
+  scene_file: "winchenbach-instable-scene.yaml"
+  png_file: "winchenbach-instabilities-source-term.png"

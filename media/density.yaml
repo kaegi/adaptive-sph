@@ -1,0 +1,26 @@
+- time: 3
+  config_path: ../default-config.yaml
+  visualized_attribute: Density
+  title: "Density (distribution-based smoothing length)"
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    support_length_estimation: FromDistributionClamped1
+    hybrid_dfsph_max_avg_density_error: 0.0005
+    max_dt: 0.003
+  scene_file: "scene-ratio2to1.yaml"
+  png_file: "density-from-distribution.png"
+- time: 3 
+  config_path: ../default-config.yaml
+  visualized_attribute: Density
+  title: "Density (mass-based smoothing length)"
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    support_length_estimation: FromMass
+    hybrid_dfsph_max_avg_density_error: 0.0005
+    max_dt: 0.003
+  scene_file: "scene-ratio2to1.yaml"
+  png_file: "density-from-mass.png"

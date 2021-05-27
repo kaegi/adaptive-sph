@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Adaptive SPH</title>
+    <script type="text/javascript" src="http://livejs.com/live.js"></script>
+    <!-- <meta http-equiv="refresh" content="5" /> -->
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <!-- <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script> -->
+
+    <style>
+        html {
+          /* Remove touch delay: */
+          touch-action: manipulation;
+        }
+
+
+        /* Allow canvas to fill entire web page: */
+        html,
+        body {
+            overflow: hidden;
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import init, { start, render, simulation_step } from "./wasm/adaptive_sph.js";
+
+      var instantiate_wasm = function() {
+        init()
+        .then(() => {
+
+          start();
+
+          var handleAnimationFrame = function(time) {
+            render(time / 1000);
+            try {
+              simulation_step();
+              window.requestAnimationFrame(handleAnimationFrame);
+            } catch(e) {
+              var outer = document.createElement('div');
+              outer.style.cssText = 'position:absolute;left:0;right:0;top:0;bottom:0;height:100%;width:100%;background-color:rgba(0,0,20,0.4)';
+              var inner = document.createElement('div');
+              inner.style.cssText = 'position:absolute;left:0;right:0;top:40%;width:50%;margin-left:auto;margin-right:auto;background-color:rgba(255,255,255,0.9); border-radius: 7px; padding: 40px';
+              inner.innerHTML = "<span style='color: red; font-size:50px'>Simulation failed!</span><br><span style='color: black; font-size:30px'>This might be due to an invalid parameter selection.<br>Please reload page (or click here).</span>"
+              inner.onclick = function() {
+                location.reload();
+              };
+              outer.appendChild(inner);
+              document.body.appendChild(outer);
+            }
+          };
+
+          window.requestAnimationFrame(handleAnimationFrame);
+        });
+      }
+
+      instantiate_wasm();
+
+      document.querySelector('#canvas').addEventListener('touchstart', function(event) {
+         console.log(event);
+       });
+
+      // document.querySelector('#canvas').addEventListener('mousemove', function(event) {
+      //   console.log(event);
+      // });
+      document.querySelector('#canvas').addEventListener('wheel', function(event) {
+        console.log(event);
+      });
+      // document.querySelector('#canvas').addEventListener('mousedown', function(event) {
+      //   register_input_event(event);
+      // });
+      document.querySelector('#canvas').addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+      });
+    </script>
+    <canvas id="canvas" style="position:absolute; top: 0px; left:0px"></canvas>
+    <div style="width: 30%; position: absolute; top: 0px; right: 0px; bottom: 0px">
+      <canvas id="properties_window" style="position:absolute; top: 0px; bottom: 0px; right: 0px"></canvas>
+    </div>
+    <div id="loading" style="position:absolute; top: 50%; left: 0; right: 0; margin-left: auto; margin-right: auto; font-size: 50px; width: 50%">Loading... Please wait.</div>
+  </body>
+</html>

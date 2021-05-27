@@ -1,0 +1,16 @@
+- time: 3
+  video_start_time: 0
+  video_fps: 60
+  video_speed: 0.25
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    viscosity: 0.001
+    # hybrid_dfsph_factor: 200.
+    viscosity_type: ApproxLaplace
+    init_boundary_handler: AnalyticOverestimate
+  title: "Particle count #p"
+  scene_file: "../default-scene.yaml"
+  png_file: "video-default.mp4"
+  no_legend: true

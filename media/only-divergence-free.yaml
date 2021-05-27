@@ -1,0 +1,30 @@
+- time: 20
+  video_start_time: 0
+  video_fps: 60
+  # video_img_dir: only
+  zoom_out: 1.2
+  video_speed: 2
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  # title: "Divergence-free solver"
+  scene_file: "../default-scene.yaml"
+  png_file: "only-divergence-free.mp4"
+  no_legend: true
+  output_stats: true
+  update_attributes:
+    max_dt: 0.006
+    viscosity_type: ApproxLaplace
+    viscosity: 0.001
+    hybrid_dfsph_factor: 20
+    cfl_factor: 0.4
+    merging: true
+    splitting: true
+    sharing: true
+    sizing_function: Mass
+    maximum_surface_distance: 2.0
+    particle_radius_base: 0.06
+    particle_radius_fine: 0.003
+    boundary_is_fluid_surface: false
+    hybrid_dfsph_max_avg_divergence_error: 0.0001
+    pressure_solver_method: OnlyDivergence

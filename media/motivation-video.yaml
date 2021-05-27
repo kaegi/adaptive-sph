@@ -1,0 +1,62 @@
+# - time: 2.8
+#   video_start_time: 0.1
+#   video_fps: 60
+#   video_speed: 0.25
+#   video_img_dir: motivation-video-adaptive
+#   config_path: ../default-config.yaml
+#   visualization_params:
+#     visualized_attribute: Velocity
+#   # title: "Ratio 50:1 of particle radii"
+#   title: "Adaptive SPH (#p particles)"
+#   update_attributes:
+#     merging: true
+#     sharing: true
+#     splitting: true
+#     support_length_estimation: FromMass
+#     hybrid_dfsph_factor: 0.
+#     pressure_solver_method: HybridDFSPH
+#     cfl_factor: 0.4
+#     max_dt: 0.002
+#     viscosity: 0.001
+#     iisph_max_avg_density_error: 0.002
+#     hybrid_dfsph_max_avg_divergence_error: 0.0004
+#     init_boundary_handler: AnalyticOverestimate
+#     particle_radius_base: 0.7
+#     particle_radius_fine: 0.002
+#   png_file: "motivation-video-adaptive.mp4"
+#   scene_file: "motivation-scene2.yaml"
+#   no_legend: true
+#   zoom_out: 1.15
+#   output_stats: true
+
+- time: 2.8
+  video_start_time: 0.1
+  video_fps: 60
+  video_speed: 0.25
+  video_img_dir: motivation-video-uniform
+  config_path: ../default-config.yaml
+  title: "Uniform SPH (#p particles)"
+  visualization_params:
+    visualized_attribute: Velocity
+  # title: "Ratio 50:1 of particle radii"
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    support_length_estimation: FromMass
+    hybrid_dfsph_factor: 20000000.
+    pressure_solver_method: HybridDFSPH
+    cfl_factor: 0.4
+    max_dt: 0.002
+    viscosity: 0.001
+    iisph_max_avg_density_error: 0.002
+    hybrid_dfsph_max_avg_divergence_error: 0.0004
+    init_boundary_handler: AnalyticOverestimate
+    particle_radius_base: 0.7
+    particle_radius_fine: 0.002
+    level_estimation_method: None
+  png_file: "motivation-video-uniform.mp4"
+  scene_file: "motivation-scene2.yaml"
+  no_legend: true
+  zoom_out: 1.15
+  output_stats: true

@@ -1,0 +1,38 @@
+- time: 0.5
+  config_path: ../default-config.yaml
+  legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: Distance
+  title: "Keeping surface detections near boundary"
+  update_attributes:
+    maximum_surface_distance: 1.0
+    particle_radius_base: 0.05
+    particle_radius_fine: 0.005
+    merging: true
+    sharing: true
+    splitting: true
+    sizing_function: Mass
+    viscosity: 0.002
+    boundary_is_fluid_surface: true
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "surface-boundary-false.png"
+  output_stats: true
+- time: 0.5
+  config_path: ../default-config.yaml
+  legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: Distance
+  title: "Removing surface detections near boundary"
+  update_attributes:
+    maximum_surface_distance: 1.0
+    particle_radius_base: 0.05
+    particle_radius_fine: 0.005
+    merging: true
+    sharing: true
+    splitting: true
+    sizing_function: Mass
+    viscosity: 0.002
+    boundary_is_fluid_surface: false
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "surface-boundary-true.png"
+  output_stats: true

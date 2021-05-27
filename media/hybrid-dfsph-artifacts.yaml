@@ -1,0 +1,54 @@
+- time: 0.2
+  config_path: ../default-config.yaml
+  no_legend: true
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    # gravity: 0.
+    hybrid_dfsph_factor: 0
+    init_boundary_handler: AnalyticUnderestimate
+    max_dt: 0.010
+    boundary_is_fluid_surface: true
+  title: "Hybrid DFSPH (c=0)"
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "hybrid-dfsph-artifact-1.png"
+  zoom_out: 1.1
+- time: 0.2
+  config_path: ../default-config.yaml
+  no_legend: true
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    # gravity: 0.
+    hybrid_dfsph_factor: 1
+    init_boundary_handler: AnalyticUnderestimate
+    max_dt: 0.010
+    boundary_is_fluid_surface: false
+  title: "Hybrid DFSPH (c=0)"
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "hybrid-dfsph-artifact-2.png"
+  zoom_out: 1.1
+- time: 0.2
+  config_path: ../default-config.yaml
+  no_legend: true
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    # gravity: 0.
+    hybrid_dfsph_factor: 200
+    init_boundary_handler: AnalyticUnderestimate
+    max_dt: 0.010
+    boundary_is_fluid_surface: true
+  title: "Hybrid DFSPH (c=200)"
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "hybrid-dfsph-artifact-3.png"
+  zoom_out: 1.1

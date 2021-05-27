@@ -1,0 +1,27 @@
+- time: 5.0
+  video_start_time: 0.1
+  video_fps: 60
+  video_speed: 0.25
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  # title: "Ratio 50:1 of particle radii"
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    support_length_estimation: FromMass
+    hybrid_dfsph_factor: 0.
+    pressure_solver_method: HybridDFSPH
+    cfl_factor: 0.4
+    max_dt: 0.002
+    viscosity: 0.001
+    iisph_max_avg_density_error: 0.002
+    hybrid_dfsph_max_avg_divergence_error: 0.0004
+    init_boundary_handler: AnalyticOverestimate
+    particle_radius_base: 0.7
+    particle_radius_fine: 0.002
+  png_file: "motivation.mp4"
+  scene_file: "motivation-scene.yaml"
+  no_legend: true
+  zoom_out: 1.1

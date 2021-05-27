@@ -1,0 +1,64 @@
+- time: 0.3
+  config_path: ../default-config.yaml
+  no_legend: true
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    gravity: 0.
+    hybrid_dfsph_factor: 0
+    init_boundary_handler: AnalyticUnderestimate
+    max_dt: 0.002
+  title: "Before resampling"
+  scene_file: "resampling-gravity-free-scene.yaml"
+  png_file: "resampling-before.png"
+- time: 0.4
+  config_path: ../default-config.yaml
+  no_legend: true
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    gravity: 0.
+    hybrid_dfsph_factor: 0
+    init_boundary_handler: AnalyticUnderestimate
+    max_dt: 0.002
+  title: "After resampling (Hybrid DFSPH with c=0)"
+  scene_file: "resampling-gravity-free-scene.yaml"
+  png_file: "resampling-after-hybrid1.png"
+- time: 0.4
+  config_path: ../default-config.yaml
+  no_legend: true
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    gravity: 0.
+    hybrid_dfsph_factor: 150
+    init_boundary_handler: AnalyticUnderestimate
+    max_dt: 0.002
+  title: "After resampling (Hybrid DFSPH c=150)"
+  scene_file: "resampling-gravity-free-scene.yaml"
+  png_file: "resampling-after-hybrid2.png"
+- time: 0.4
+  config_path: ../default-config.yaml
+  no_legend: true
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    gravity: 0.
+    hybrid_dfsph_factor: 2000000
+    init_boundary_handler: AnalyticUnderestimate
+    max_dt: 0.002
+  title: "After resampling (DFSPH)"
+  scene_file: "resampling-gravity-free-scene.yaml"
+  png_file: "resampling-after-dfsph.png"

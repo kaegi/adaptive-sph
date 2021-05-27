@@ -1,0 +1,7 @@
+- time: 0.7
+  config_path: ../default-config.yaml
+  visualized_attribute: NeighborCount
+  png_file: "render-test.png"
+  legend_only_min_max: true
+  legend_text_right: true
+  scene_file: ../default-scene.yaml

@@ -1,0 +1,53 @@
+- time: 0.55
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Distance
+    take_data_from_stash: true
+  title: "After surface detection"
+  update_attributes:
+    # merging: false
+    # sharing: false
+    # splitting: false
+    particle_radius_base: 0.035
+    particle_radius_fine: 0.01
+    support_length_estimation: FromDistributionClamped1
+    maximum_surface_distance: 0.45
+    fill_stash_with: SurfaceDistanceFirstIteration
+  scene_file: "scene-ratio2to1.yaml"
+  legend_only_min_max: true
+  png_file: "surface-distance-1.png"
+- time: 0.55
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Distance
+    take_data_from_stash: true
+  title: "Level-set propagation (1 iteration)"
+  update_attributes:
+    # merging: false
+    # sharing: false
+    # splitting: false
+    particle_radius_base: 0.035
+    particle_radius_fine: 0.01
+    support_length_estimation: FromDistributionClamped1
+    maximum_surface_distance: 0.45
+    fill_stash_with: SurfaceDistanceMiddle
+  scene_file: "scene-ratio2to1.yaml"
+  legend_only_min_max: true
+  png_file: "surface-distance-2.png"
+- time: 0.55
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Distance
+  title: "Final level-set"
+  update_attributes:
+    # merging: false
+    # sharing: false
+    # splitting: false
+    particle_radius_base: 0.035
+    particle_radius_fine: 0.01
+    support_length_estimation: FromDistributionClamped1
+    maximum_surface_distance: 0.45
+    fill_stash_with: SurfaceDistanceMiddle
+  scene_file: "scene-ratio2to1.yaml"
+  legend_only_min_max: true
+  png_file: "surface-distance-3.png"

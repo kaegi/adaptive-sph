@@ -1,0 +1,99 @@
+- time: 4.0
+  video_start_time: 0.1
+  video_fps: 60
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  # title: "Ratio 50:1 of particle radii"
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    support_length_estimation: FromMass
+    # hybrid_dfsph_factor: 2000000.
+    pressure_solver_method: IISPH
+    cfl_factor: 0.4
+    max_dt: 0.006
+    viscosity: 0.006
+    iisph_max_avg_density_error: 0.002
+    init_boundary_handler: AnalyticOverestimate
+    particle_radius_base: 0.7
+    particle_radius_fine: 0.015
+  png_file: "iisph-explosions-1.mp4"
+  scene_file: "scene-nearly-rest.yaml"
+  no_legend: true
+
+- time: 4.0
+  video_start_time: 0.1
+  video_fps: 60
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  # title: "Ratio 50:1 of particle radii"
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    support_length_estimation: FromMass
+    # hybrid_dfsph_factor: 2000000.
+    pressure_solver_method: IISPH
+    cfl_factor: 0.4
+    max_dt: 0.004
+    viscosity: 0.006
+    iisph_max_avg_density_error: 0.002
+    init_boundary_handler: AnalyticOverestimate
+    particle_radius_base: 0.7
+    particle_radius_fine: 0.015
+  png_file: "iisph-explosions-2.mp4"
+  scene_file: "scene-nearly-rest.yaml"
+  no_legend: true
+
+- time: 4.0
+  video_start_time: 0.1
+  video_fps: 60
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  # title: "Ratio 50:1 of particle radii"
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    support_length_estimation: FromMass
+    # hybrid_dfsph_factor: 2000000.
+    pressure_solver_method: IISPH
+    cfl_factor: 0.4
+    max_dt: 0.002
+    viscosity: 0.006
+    iisph_max_avg_density_error: 0.002
+    init_boundary_handler: AnalyticOverestimate
+    particle_radius_base: 0.7
+    particle_radius_fine: 0.015
+  png_file: "iisph-explosions-3.mp4"
+  scene_file: "scene-nearly-rest.yaml"
+  no_legend: true
+
+- time: 4.0
+  video_start_time: 0.1
+  video_fps: 60
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  # title: "Ratio 50:1 of particle radii"
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    support_length_estimation: FromMass
+    # hybrid_dfsph_factor: 2000000.
+    pressure_solver_method: IISPH
+    cfl_factor: 0.4
+    max_dt: 0.001
+    viscosity: 0.006
+    iisph_max_avg_density_error: 0.002
+    init_boundary_handler: AnalyticOverestimate
+    particle_radius_base: 0.7
+    particle_radius_fine: 0.015
+  png_file: "iisph-explosions-4.mp4"
+  scene_file: "scene-nearly-rest.yaml"
+  no_legend: true

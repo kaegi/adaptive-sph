@@ -1,0 +1,63 @@
+- time: 5
+  video_start_time: 0
+  video_fps: 60
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    viscosity: 0.001
+    # hybrid_dfsph_factor: 200.
+    viscosity_type: ApproxLaplace
+    init_boundary_handler: AnalyticUnderestimate
+  title: "Particle count #p"
+  scene_file: "../default-scene.yaml"
+  png_file: "video-b1-vis-unnormalized.mp4"
+  no_legend: true
+
+- time: 5
+  video_start_time: 0
+  video_fps: 60
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    viscosity: 0.001
+    # hybrid_dfsph_factor: 200.
+    viscosity_type: ApproxLaplace
+    init_boundary_handler: AnalyticUnderestimate
+  title: "Particle count #p"
+  scene_file: "../default-scene.yaml"
+  png_file: "video-b1-vis-normalized.mp4"
+  no_legend: true
+
+- time: 5
+  video_start_time: 0
+  video_fps: 60
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    viscosity: 0.001
+    # hybrid_dfsph_factor: 200.
+    viscosity_type: ApproxLaplace
+    init_boundary_handler: AnalyticOverestimate
+  title: "Particle count #p"
+  scene_file: "../default-scene.yaml"
+  png_file: "video-b2-vis-unnormalized.mp4"
+  no_legend: true
+
+- time: 5
+  video_start_time: 0
+  video_fps: 60
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    viscosity: 0.001
+    # hybrid_dfsph_factor: 200.
+    viscosity_type: ApproxLaplace
+    init_boundary_handler: AnalyticOverestimate
+  title: "Particle count #p"
+  scene_file: "../default-scene.yaml"
+  png_file: "video-b2-vis-normalized.mp4"
+  no_legend: true

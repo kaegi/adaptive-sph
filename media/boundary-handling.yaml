@@ -1,0 +1,44 @@
+- time: 0.4
+  config_path: ../default-config.yaml
+  zoom_out: 1.2
+  # legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: Density
+  title: "Convex decomposition"
+  update_attributes:
+    maximum_surface_distance: 1.0
+    particle_radius_base: 0.05
+    particle_radius_fine: 0.005
+    merging: true
+    sharing: true
+    splitting: true
+    sizing_function: Mass
+    viscosity: 0.005
+    boundary_is_fluid_surface: false
+    max_dt: 0.001
+    init_boundary_handler: AnalyticOverestimate
+    hybrid_dfsph_max_avg_density_error: 0.001
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "boundary-handling-overestimate.png"
+- time: 0.4
+  zoom_out: 1.2
+  config_path: ../default-config.yaml
+  # legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: Density
+  title: "Single boundary element"
+  update_attributes:
+    maximum_surface_distance: 1.0
+    particle_radius_base: 0.05
+    particle_radius_fine: 0.005
+    merging: true
+    sharing: true
+    splitting: true
+    sizing_function: Mass
+    viscosity: 0.005
+    max_dt: 0.001
+    boundary_is_fluid_surface: false
+    init_boundary_handler: AnalyticUnderestimate
+    hybrid_dfsph_max_avg_density_error: 0.001
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "boundary-handling-underestimate.png"

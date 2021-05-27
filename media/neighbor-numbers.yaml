@@ -1,0 +1,24 @@
+- time: 0.9
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: NeighborCount
+  title: "Neighbor count (distribution-based smoothing length)"
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    support_length_estimation: FromDistributionClamped1
+  scene_file: "scene-ratio2to1.yaml"
+  png_file: "neighbor-number-from-distribution.png"
+- time: 0.9
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: NeighborCount
+  title: "Neighbor count (mass-based smoothing length)"
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    support_length_estimation: FromMass
+  scene_file: "scene-ratio2to1.yaml"
+  png_file: "neighbor-number-from-mass.png"

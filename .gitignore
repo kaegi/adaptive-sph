@@ -1,0 +1,8 @@
+/target
+.vscode
+/data/
+/blob/
+split-patterns/*.svg
+split-patterns/*.svg.png
+*.mp4
+*.mkv

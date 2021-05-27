@@ -1,0 +1,21 @@
+- time: 0.5
+  config_path: ../default-config.yaml
+  legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: Distance
+  # title: "Surface distance  and particle size"
+  update_attributes:
+    maximum_surface_distance: 1.0
+    particle_radius_base: 0.1
+    particle_radius_fine: 0.005
+    merging: true
+    sharing: true
+    splitting: true
+    sizing_function: Radius
+    viscosity: 0.002
+    init_boundary_handler: AnalyticUnderestimate
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "smooth-transition.png"
+  # output_stats: true
+  no_legend: true
+  zoom_out: 1.15

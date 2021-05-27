@@ -1,0 +1,20 @@
+- time: 0.8
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  title: "Ratio 50:1 of particle radii"
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    support_length_estimation: FromMass
+    max_iters: 200
+    hybrid_dfsph_max_avg_density_error: 0.001
+    hybrid_dfsph_max_avg_divergence_error: 0.0001
+    hybrid_dfsph_factor: 1000000
+    cfl_factor: 0.3
+    max_dt: 0.003
+  png_file: "ratio-stress-test.png"
+  scene_file: "ratio-stress-test-scene.yaml"
+  legend_only_min_max: true
+  legend_text_right: true

@@ -1,0 +1,10 @@
+boundary:
+  type: box
+  width: 2
+  height: 2
+blocks:
+  - pos: [-0.99, -0.99]
+    size: [1.98, 1]
+    spacing: 0.03
+    volume_fill_ratio: 0.93
+    velocity: [0, 0]

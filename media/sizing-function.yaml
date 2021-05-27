@@ -1,0 +1,72 @@
+- time: 0.5
+  config_path: ../default-config.yaml
+  legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: Distance
+  title: "Mass interpolation as sizing function (20:1)"
+  update_attributes:
+    maximum_surface_distance: 1.0
+    particle_radius_base: 0.1
+    particle_radius_fine: 0.005
+    merging: true
+    sharing: true
+    splitting: true
+    sizing_function: Mass
+    viscosity: 0.002
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "sizing-function-mass-1to20.png"
+  output_stats: true
+- time: 0.5
+  config_path: ../default-config.yaml
+  legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: Distance
+  title: "Radius interpolation as sizing function (20:1)"
+  update_attributes:
+    maximum_surface_distance: 1.0
+    particle_radius_base: 0.1
+    particle_radius_fine: 0.005
+    merging: true
+    sharing: true
+    splitting: true
+    sizing_function: Radius
+    viscosity: 0.002
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "sizing-function-radius-1to20.png"
+  output_stats: true
+- time: 0.5
+  config_path: ../default-config.yaml
+  legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: Distance
+  title: "Mass interpolation as sizing function (10:1)"
+  update_attributes:
+    maximum_surface_distance: 1.0
+    particle_radius_base: 0.05
+    particle_radius_fine: 0.005
+    merging: true
+    sharing: true
+    splitting: true
+    sizing_function: Mass
+    viscosity: 0.002
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "sizing-function-mass-1to10.png"
+  output_stats: true
+- time: 0.5
+  config_path: ../default-config.yaml
+  legend_only_min_max: true
+  visualization_params:
+    visualized_attribute: Distance
+  title: "Radius interpolation as sizing function (10:1)"
+  update_attributes:
+    maximum_surface_distance: 1.0
+    particle_radius_base: 0.05
+    particle_radius_fine: 0.005
+    merging: true
+    sharing: true
+    splitting: true
+    sizing_function: Radius
+    viscosity: 0.002
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "sizing-function-radius-1to10.png"
+  output_stats: true

@@ -1,0 +1,49 @@
+- time: 1.1
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  # title: "Ratio 50:1 of particle radii"
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    support_length_estimation: FromMass
+    hybrid_dfsph_factor: 0.
+    pressure_solver_method: HybridDFSPH
+    cfl_factor: 0.4
+    max_dt: 0.002
+    viscosity: 0.001
+    iisph_max_avg_density_error: 0.002
+    hybrid_dfsph_max_avg_divergence_error: 0.0004
+    init_boundary_handler: AnalyticOverestimate
+    particle_radius_base: 0.7
+    particle_radius_fine: 0.002
+  png_file: "motivation-1.png"
+  scene_file: "motivation-scene2.yaml"
+  no_legend: true
+  zoom_out: 1.1
+
+- time: 1.1
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: Velocity
+  # title: "Ratio 50:1 of particle radii"
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    support_length_estimation: FromMass
+    hybrid_dfsph_factor: 20000000.
+    pressure_solver_method: HybridDFSPH
+    cfl_factor: 0.4
+    max_dt: 0.002
+    viscosity: 0.001
+    iisph_max_avg_density_error: 0.002
+    hybrid_dfsph_max_avg_divergence_error: 0.0004
+    init_boundary_handler: AnalyticOverestimate
+    particle_radius_base: 0.7
+    particle_radius_fine: 0.002
+  png_file: "motivation-2.png"
+  scene_file: "motivation-scene2.yaml"
+  no_legend: true
+  zoom_out: 1.1

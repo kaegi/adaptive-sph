@@ -1,0 +1,64 @@
+- time: 3.0
+  video_start_time: 0
+  video_fps: 60
+  config_path: ../default-config.yaml
+  no_legend: true
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    # gravity: 0.
+    hybrid_dfsph_factor: 0
+    init_boundary_handler: AnalyticUnderestimate
+    max_dt: 0.002
+    viscosity: 0.006
+    boundary_is_fluid_surface: true
+    max_iters: 200
+  title: "Hybrid DFSPH (c = 0)"
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "hybrid-dfsph-artifact-1.mp4"
+  zoom_out: 1.1
+- time: 3.0
+  video_start_time: 0
+  video_fps: 60
+  config_path: ../default-config.yaml
+  no_legend: true
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    # gravity: 0.
+    hybrid_dfsph_factor: 1
+    init_boundary_handler: AnalyticUnderestimate
+    max_dt: 0.002
+    viscosity: 0.006
+    boundary_is_fluid_surface: false
+  title: "Hybrid DFSPH (c = 0)"
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "hybrid-dfsph-artifact-2.mp4"
+  zoom_out: 1.1
+- time: 3.0
+  video_start_time: 0
+  video_fps: 60
+  config_path: ../default-config.yaml
+  no_legend: true
+  visualization_params:
+    visualized_attribute: Velocity
+  update_attributes:
+    merging: true
+    sharing: true
+    splitting: true
+    # gravity: 0.
+    hybrid_dfsph_factor: 200
+    init_boundary_handler: AnalyticUnderestimate
+    max_dt: 0.002
+    viscosity: 0.006
+    boundary_is_fluid_surface: true
+  title: "Hybrid DFSPH (c = 250)"
+  scene_file: "scene-nearly-rest.yaml"
+  png_file: "hybrid-dfsph-artifact-3.mp4"
+  zoom_out: 1.1

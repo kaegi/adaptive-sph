@@ -1,0 +1,112 @@
+f(q):=8/(%pi)*(6*(q^3-q^2)+1);
+g(q):=8/(%pi)*2*(1-q)^3;
+
+f_integrated:radcan(integrate(f(q)*2*%pi*q*(q-d),q,d,1/2));
+g_integrated:radcan(integrate(g(q)*2*%pi*q*(q-d),q,d,1));
+g_integrated_half:radcan(integrate(g(q)*2*%pi*q*(q-d),q,1/2,1));
+
+"Lambda from d in 0 to 0.5 (integrate from d to 1 over two pieces)";
+lambda3_zero_to_half:radcan(g_integrated_half+f_integrated);
+
+"Lambda from d in 0.5 to 1 (integrate from d to 1 over one piece)";
+lambda3_half_to_one:g_integrated;
+
+"DERIVATIVE OF Lambda3 from d in 0 to 0.5";
+dlambda3_zero_to_half:radcan(diff(lambda3_zero_to_half, d));
+tex1(dlambda3_zero_to_half);
+
+"DERIVATIVE OF Lambda3 from d in 0.5 to 1";
+dlambda3_half_to_one:radcan(diff(lambda3_half_to_one, d));
+tex1(dlambda3_half_to_one);
+
+
+
+/***** 2 Dimensions *************/
+
+
+
+f(q):=40/(7*%pi)*(6*(q^3-q^2)+1);
+g(q):=40/(7*%pi)*2*(1-q)^3;
+
+assume(d>0);
+assume(d<1);
+
+assume(q>d);
+
+assume(d<1/2);
+f2_integrated:radcan(integrate(f(q)*2*q*acos(d/q),q,d,1/2));
+g2_integrated_half:radcan(integrate(g(q)*2*q*acos(d/q),q,1/2,1));
+forget(d<1/2);
+
+assume(d>=1/2);
+
+"Boundary integration for 2D cubic spline kernel (d from 0.5 to 1)";
+lambda2_half_to_one:radcan(integrate(g(q)*2*q*acos(d/q),q,d,1));
+tex(lambda2_half_to_one);
+
+"Boundary integration for 2D cubic spline kernel (d from 0 to 0.5)";
+lambda2_zero_to_half:radcan(f2_integrated+g2_integrated_half);
+tex(lambda2_zero_to_half);
+
+
+lambda2_zero_to_half_from_paper:-1/(7*%pi)*(
+(-12*d^5-80*d^3)*log(2*sqrt(1-d^2)+2)
++(30*d^5+80*d^3)*log(sqrt(1-4*d^2)+1)
+-18*d^5*log(1-sqrt(1-4*d^2))
++acos(2*d)-8*acos(d)
++sqrt(1-d^2)*(68*d^3+32*d)+sqrt(1-4*d^2)*(-68*d^3-8*d)
+);
+
+dlambda2_zero_to_half:radcan(diff(lambda2_zero_to_half, d));
+?princ(string(subst(ln,log,subst(pi,%pi,%))))$
+
+dlambda2_half_to_one:radcan(diff(lambda2_half_to_one, d));
+?princ(string(subst(ln,log,subst(pi,%pi,%))))$
+
+printrust_old(expr):=string(subst(myinv=lambda([a], 1/round(a)), subst("^"=lambda([a, b], if(b=1/2 or b=-1) then a^b else pow(a,b)), float(subst("/"=lambda([a,b], a * myinv(b)), subst(ln,log,subst(PI,%pi,radcan(expr))))))));
+printrust(expr):=string(subst(myinv=lambda([a], 1/round(a)), subst("^"=lambda([a, b], if(b=-1) then a^b elseif ((b=1/2) or (b=myinv(2))) then sqrt(a) else pow(a,b)), float(subst("/"=lambda([a,b], if (a=1) then myinv(b) elseif (a=-1) then myinv(-b) else a * myinv(b)), subst(ln,log,subst(PI,%pi,radcan(expr))))))));
+
+
+?princ(printrust(lambda2_zero_to_half))$
+?princ(printrust(lambda2_half_to_one))$
+?princ(printrust(dlambda2_zero_to_half))$
+?princ(printrust(dlambda2_half_to_one))$
+?princ("")$
+
+float(subst(0.000001, d, dlambda2_zero_to_half));
+float(subst(0.000000001, d, dlambda2_zero_to_half));
+float(subst(0.000000000001, d, dlambda2_zero_to_half));
+float(subst(0.00000000000000001, d, dlambda2_zero_to_half));
+float(subst(0.5, d, dlambda2_half_to_one));
+
+float(subst(0.000000001, d, lambda2_zero_to_half));
+float(subst(0.5, d, lambda2_zero_to_half));
+float(subst(0.5, d, lambda2_half_to_one));
+float(subst(1, d, lambda2_half_to_one));
+
+?princ("")$
+?princ("")$
+
+float(subst(0.00001, d, dlambda2_zero_to_half));
+float(subst(0.1, d,     dlambda2_zero_to_half));
+float(subst(0.2, d,     dlambda2_zero_to_half));
+float(subst(0.3, d,     dlambda2_zero_to_half));
+float(subst(0.475, d,   dlambda2_zero_to_half));
+float(subst(0.49999999, d,   dlambda2_zero_to_half));
+float(subst(0.5, d,     dlambda2_half_to_one));
+float(subst(0.6, d,     dlambda2_half_to_one));
+float(subst(0.7, d,     dlambda2_half_to_one));
+float(subst(0.8, d,     dlambda2_half_to_one));
+float(subst(0.9, d,     dlambda2_half_to_one));
+float(subst(0.9999999999, d,     dlambda2_half_to_one));
+
+/* undefined: float(subst(0.5, d, dlambda2_zero_to_half)); */
+
+/*
+?princ(string(subst(ln,log,subst(pi,%pi,lambda2_zero_to_half))))$
+?princ(string(subst(ln,log,subst(pi,%pi,lambda2_half_to_one))))$
+?princ(string(subst(ln,log,subst(pi,%pi,lambda2_zero_to_half_from_paper))))$
+*/
+
+stringout("a.tex", tex1(dlambda2_zero_to_half));
+stringout("b.tex", tex1(dlambda2_half_to_one));

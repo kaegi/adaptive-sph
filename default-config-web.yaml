@@ -1,0 +1,55 @@
+rest_density: 1
+cfl_factor: 0.5
+max_dt: 0.006
+h: 0.0 # constant smoothing length only used for uniform-particle-sizes (will be overwritten by code)
+use_iisph: true
+eos_power: 7
+eos_stiffness: 80
+viscosity_type: ApproxLaplace
+viscosity: 0.0008
+jacobi_omega: 0.5
+gravity: -9.81
+check_neighborhood: false
+maximum_range: 5.0
+level_estimation_method: EmptyAngle
+neighborhood_search_algorithm: RStar
+init_boundary_handler: AnalyticOverestimate
+support_length_estimation: FromMass
+constrain_neighborhood_count: false
+maximum_surface_distance: 2.0
+particle_radius_fine: 0.005
+particle_radius_base: 0.25
+merging: true
+sharing:  true
+splitting:  true
+minimum_share_partners: 0
+minimum_merge_partners: 0
+max_mass_transfer_sharing: 400000
+max_mass_transfer_merging: 100
+allow_share_with_optimal_particle: false
+allow_share_with_too_small_particle: false 
+allow_merge_with_optimal_particle: false
+allow_merge_on_size_difference: false
+boundary_is_fluid_surface: false
+max_merge_distance: 1.6 # in terms of smoothing length
+max_share_distance: 1.6 # in terms of smoothing length
+hybrid_dfsph_factor: 0.
+hybrid_dfsph_max_avg_density_error: 0.015
+hybrid_dfsph_max_avg_divergence_error: 0.003
+hybrid_dfsph_density_source_term: DensityAndDivergence
+hybrid_dfsph_non_pressure_accel_before_divergence_free: true
+iisph_max_avg_density_error: 0.002
+sdf_gradient_eps: 0.00001
+fail_on_missing_split_pattern: false
+use_extended_range_for_level_estimation: true
+boundary_penalty_term: Quadratic1
+# sizing_function: Mass
+sizing_function: Radius
+level_estimation_after_advection: false
+level_estimation_range: 5.5
+max_iters: 200
+
+operator_discretization: ConsistentSimpleGradient
+# operator_discretization: Winchenbach2020
+check_aii: false
+pressure_solver_method: HybridDFSPH

@@ -1,0 +1,32 @@
+- time: 3
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: SingleColor
+    show_flag_is_fluid_surface: true
+  title: "Surface detection (average neighbor positions)"
+  no_legend: true
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    support_length_estimation: FromMass
+    level_estimation_method: CenterDiff
+    boundary_is_fluid_surface: true
+  scene_file: "scene-ratio2to1.yaml"
+  png_file: "surface-detection-1.png"
+- time: 3
+  config_path: ../default-config.yaml
+  visualization_params:
+    visualized_attribute: SingleColor
+    show_flag_is_fluid_surface: true
+  title: "Surface detection (empty area around normal)"
+  no_legend: true
+  update_attributes:
+    merging: false
+    sharing: false
+    splitting: false
+    support_length_estimation: FromMass
+    level_estimation_method: EmptyAngle
+    boundary_is_fluid_surface: true
+  scene_file: "scene-ratio2to1.yaml"
+  png_file: "surface-detection-2.png"
