@@ -120,9 +120,13 @@ impl<const D: usize> SplitPatterns<D> {
 }
 
 enum InitialSplitPattern {
-    RandomInSphere { radius: FT },
+    RandomInSphere {
+        radius: FT,
+    },
     #[allow(unused)]
-    Spiral { factor: FT },
+    Spiral {
+        factor: FT,
+    },
 }
 
 #[derive(PartialEq, Eq, Copy, Clone)]
@@ -459,7 +463,7 @@ fn find_optimal_mass<DU: DimensionUtils<D>, const D: usize>(
 pub fn precalculate_split_pattern<DU: DimensionUtils<D>, const D: usize>(
     num_children: usize,
     rest_density: FT,
-    export_svg: bool
+    export_svg: bool,
 ) -> SplitPattern<D> {
     println!();
     println!("===============================");

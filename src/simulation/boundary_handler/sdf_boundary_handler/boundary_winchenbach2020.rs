@@ -3,11 +3,12 @@ use std::marker::PhantomData;
 use crate::{
     boundary_handler::BoundaryHandlerTrait,
     concurrency::par_iter_mut1,
+    floating_type_mod::FT,
     neighborhood_search::NeighborhoodCache,
     sdf::Sdf,
     simulation_parameters::{BoundaryPenaltyTerm, OperatorDiscretization, SimulationParams},
     sph_kernels::{smoothing_length, support_radius_single, DimensionUtils},
-    floating_type_mod::FT, VF,
+    VF,
 };
 
 use super::{

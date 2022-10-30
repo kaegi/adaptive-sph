@@ -1,4 +1,8 @@
-use crate::{simulation_parameters::SimulationParams, floating_type_mod::{FRAC_1_PI, FT, PI}, V2, V3, VF, VI};
+use crate::{
+    floating_type_mod::{FRAC_1_PI, FT, PI},
+    simulation_parameters::SimulationParams,
+    V2, V3, VF, VI,
+};
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 #[allow(unused)]

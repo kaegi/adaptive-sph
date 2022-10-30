@@ -1,4 +1,4 @@
-use crate::{vec2f, vec3f, floating_type_mod::FT, VF};
+use crate::{floating_type_mod::FT, vec2f, vec3f, VF};
 
 use super::{Sdf2D, Sdf3D, SdfPlane};
 

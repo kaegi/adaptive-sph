@@ -1,4 +1,3 @@
-
 pub mod adaptivity;
 pub mod boundary_handler;
 pub mod color_map;
@@ -7,11 +6,11 @@ pub mod concurrency;
 pub mod neighborhood_search;
 pub mod properties_window;
 pub mod sdf;
+pub mod simulation;
 pub mod simulation_parameters;
 pub mod sph_kernels;
 #[allow(dead_code)]
 pub mod thread_safe_ptr;
-pub mod simulation;
 
 pub type IT = i32;
 
@@ -29,7 +28,7 @@ pub mod floating_type_mod {
 
 use floating_type_mod::FT;
 
-use nalgebra::{SVector};
+use nalgebra::SVector;
 
 #[allow(dead_code)]
 pub type V<FT, const D: usize> = SVector<FT, D>;

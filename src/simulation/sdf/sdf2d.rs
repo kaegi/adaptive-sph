@@ -1,4 +1,4 @@
-use crate::{vec2f, floating_type_mod::FT, V2, VF};
+use crate::{floating_type_mod::FT, vec2f, V2, VF};
 
 #[derive(Clone)]
 pub struct Sdf2DConnectedComponents {

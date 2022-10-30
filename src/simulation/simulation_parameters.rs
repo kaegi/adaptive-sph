@@ -1,4 +1,4 @@
-use crate::{sph_kernels::DimensionUtils, VF, floating_type_mod::FT};
+use crate::{floating_type_mod::FT, sph_kernels::DimensionUtils, VF};
 use serde::{Deserialize, Serialize};
 
 #[derive(PartialEq, Eq, Debug, Clone, Copy, Serialize, Deserialize)]

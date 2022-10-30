@@ -175,7 +175,7 @@ pub fn dlambda<const D: usize>(x: LFT) -> LFT {
 mod tests {
 
     use super::{dlambda2, lambda2, LFT};
-    use crate::{assert_ft_approx_eq2, sph_kernels, floating_type_mod::FT, V};
+    use crate::{assert_ft_approx_eq2, floating_type_mod::FT, sph_kernels, V};
 
     #[test]
     fn test_dlambda2_specific_values() {

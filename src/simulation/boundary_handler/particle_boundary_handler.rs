@@ -4,13 +4,14 @@ use nalgebra::zero;
 
 use crate::{
     concurrency::par_iter_mut1,
+    floating_type_mod::FT,
     neighborhood_search::NeighborhoodCache,
     simulation_parameters::{OperatorDiscretization, SimulationParams},
     sph_kernels::{
-        smoothing_length, smoothing_length_boundary_boundary, smoothing_length_fluid_boundary, ParticleSizes,
-        PARTICLE_SIZES, DimensionUtils,
+        smoothing_length, smoothing_length_boundary_boundary, smoothing_length_fluid_boundary, DimensionUtils,
+        ParticleSizes, PARTICLE_SIZES,
     },
-    floating_type_mod::FT, INIT_PARTICLE_MASS, VF,
+    INIT_PARTICLE_MASS, VF,
 };
 
 use super::BoundaryHandlerTrait;

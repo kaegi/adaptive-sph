@@ -72,7 +72,6 @@ impl eframe::App for MyEguiApp {
     }
 
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-
         egui::CentralPanel::default().show(ctx, |ui| {
             fn add_combobox<V: PartialEq>(
                 ui: &mut Ui,
@@ -97,7 +96,6 @@ impl eframe::App for MyEguiApp {
             //     });
             // });
 
-
             ScrollArea::vertical()
                 .auto_shrink([false; 2])
                 .stick_to_bottom(false)
@@ -110,7 +108,6 @@ impl eframe::App for MyEguiApp {
                     }
 
                     ui.separator();
-                    
 
                     ui.add(egui::Slider::new(&mut self.simulation_params.cfl_factor, 0.1..=2.0).text("CFL factor"));
 
@@ -124,7 +121,6 @@ impl eframe::App for MyEguiApp {
                         .text("max CFL. timestep in ms"),
                     );
 
-                    
                     ui.separator();
 
                     ui.add(
@@ -196,17 +192,29 @@ impl eframe::App for MyEguiApp {
                             }
                         });
 
+                    let draw_shapes = match cfg!(target_arch = "wasm32") {
+                        true => {
+                            vec![
+                                (DrawShape::FilledCircle, "filled circle"),
+                                (DrawShape::Metaball, "metaball"),
+                            ]
+                        }
+                        false => {
+                            vec![
+                                (DrawShape::FilledCircle, "filled circle"),
+                                (DrawShape::FilledCircleWithBorder, "filled circle with border"),
+                                (DrawShape::Circle, "circle"),
+                                (DrawShape::Dot, "dot"),
+                                (DrawShape::Cairo, "cairo"),
+                            ]
+                        }
+                    };
+
                     add_combobox(
                         ui,
                         "Visualization Shape",
                         &mut self.visualization_params.draw_shape,
-                        vec![
-                            (DrawShape::FilledCircle, "filled circle"),
-                            (DrawShape::FilledCircleWithBorder, "filled circle with border"),
-                            (DrawShape::Circle, "circle"),
-                            (DrawShape::Dot, "dot"),
-                            (DrawShape::Cairo, "cairo"),
-                        ],
+                        draw_shapes,
                     );
 
                     ui.separator();
@@ -437,7 +445,6 @@ impl eframe::App for MyEguiApp {
                     // Adaptivity Parameters
                     // /////////////////////////////////////////////////////////////////////////////////////////////////
 
-
                     ui.add(
                         egui::Slider::new(&mut self.simulation_params.sdf_gradient_eps, 0.0000001..=1.)
                             .logarithmic(true)
@@ -537,7 +544,6 @@ impl eframe::App for MyEguiApp {
                             (Some(OperatorDiscretization::Winchenbach2020), "winchenbach"),
                         ],
                     );
-
 
                     ui.separator();
 

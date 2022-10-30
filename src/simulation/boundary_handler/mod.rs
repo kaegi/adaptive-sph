@@ -1,6 +1,6 @@
 use crate::{
-    neighborhood_search::NeighborhoodCache, simulation_parameters::SimulationParams, sph_kernels::DimensionUtils, floating_type_mod::FT,
-    VF,
+    floating_type_mod::FT, neighborhood_search::NeighborhoodCache, simulation_parameters::SimulationParams,
+    sph_kernels::DimensionUtils, VF,
 };
 
 mod particle_boundary_handler;

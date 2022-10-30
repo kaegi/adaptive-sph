@@ -9,7 +9,7 @@ mod internal {
         F: Fn(usize, &mut T1, &mut T2) -> X + Send + Sync,
         X: Send,
         C: Fn(X, X) -> X + Send + Sync,
-        I: Fn() -> X + Send + Sync
+        I: Fn() -> X + Send + Sync,
     >(
         arr1: &mut [T1],
         arr2: &mut [T2],
@@ -117,7 +117,7 @@ mod internal {
         F: Fn(usize, &mut T1, &mut T2) -> X + Send + Sync,
         X: Send,
         C: Fn(X, X) -> X + Send + Sync,
-        I: Fn() -> X + Send + Sync
+        I: Fn() -> X + Send + Sync,
     >(
         arr1: &mut [T1],
         arr2: &mut [T2],
@@ -125,7 +125,8 @@ mod internal {
         combine: C,
         f: F,
     ) -> X {
-        (arr1, arr2).into_par_iter()
+        (arr1, arr2)
+            .into_par_iter()
             .enumerate()
             .map(|(i, (a, b))| f(i, a, b))
             .reduce(identity, combine)

@@ -8,10 +8,11 @@ use vtkio::model::*;
 
 use crate::{
     boundary_handler::{BoundaryHandler, BoundaryHandlerTrait},
+    floating_type_mod::FT,
     sdf::Sdf,
     simulation_parameters::SimulationParams,
     sph_kernels::DimensionUtils,
-    ParticleVec, floating_type_mod::FT, V2, VF,
+    ParticleVec, V2, VF,
 };
 
 fn to_vec3d<const D: usize>(v: &VF<D>) -> [FT; 3] {

@@ -60,5 +60,6 @@ features = [
   'CssStyleDeclaration',
   'Window',
   'Touch',
-  'TouchList'
+  'TouchList',
+  'WebGlFramebuffer'
 ]

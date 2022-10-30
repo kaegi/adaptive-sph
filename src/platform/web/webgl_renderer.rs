@@ -12,6 +12,8 @@ use web_sys::MouseEvent;
 use web_sys::Touch;
 use web_sys::TouchList;
 use web_sys::WebGlBuffer;
+use web_sys::WebGlFramebuffer;
+use web_sys::WebGlTexture;
 use web_sys::WebGlVertexArrayObject;
 use web_sys::{WebGl2RenderingContext, WebGlProgram, WebGlShader};
 
@@ -24,10 +26,95 @@ use crate::platform::web::web_loop::GlobalState;
 use crate::sdf::Sdf;
 use crate::sph_kernels::DimensionUtils;
 use crate::sph_kernels::DimensionUtils2d;
+use crate::DrawShape;
 use crate::VisualizationParams;
 use crate::V;
 use crate::VF;
 
+struct FramebufferData {
+    fb: WebGlFramebuffer,
+    tex: WebGlTexture,
+    width: u32,
+    height: u32,
+}
+
+impl FramebufferData {
+    fn new(context: &WebGl2RenderingContext, width: u32, height: u32) -> Result<Self, JsValue> {
+        let tex = context.create_texture().unwrap();
+        context.bind_texture(WebGl2RenderingContext::TEXTURE_2D, Some(&tex));
+
+        Self::create_texture_with_size(context, width, height)?;
+
+        let level = 0;
+        let fb = context.create_framebuffer().unwrap();
+        context.bind_framebuffer(WebGl2RenderingContext::FRAMEBUFFER, Some(&fb));
+        context.framebuffer_texture_2d(
+            WebGl2RenderingContext::FRAMEBUFFER,
+            WebGl2RenderingContext::COLOR_ATTACHMENT0,
+            WebGl2RenderingContext::TEXTURE_2D,
+            Some(&tex),
+            level,
+        );
+
+        Ok(FramebufferData { fb, tex, width, height })
+    }
+
+    fn create_texture_with_size(context: &WebGl2RenderingContext, width: u32, height: u32) -> Result<(), JsValue> {
+        // define size and format of level 0
+        let level = 0;
+        let internal_format = WebGl2RenderingContext::RGBA;
+        let border = 0;
+        let format = WebGl2RenderingContext::RGBA;
+        let type_ = WebGl2RenderingContext::UNSIGNED_BYTE;
+        let data = None;
+        context.tex_image_2d_with_i32_and_i32_and_i32_and_format_and_type_and_opt_u8_array(
+            WebGl2RenderingContext::TEXTURE_2D,
+            level,
+            internal_format as i32,
+            width as i32,
+            height as i32,
+            border,
+            format,
+            type_,
+            data,
+        )?;
+
+        // set the filtering so we don't need mips
+        context.tex_parameteri(
+            WebGl2RenderingContext::TEXTURE_2D,
+            WebGl2RenderingContext::TEXTURE_MIN_FILTER,
+            WebGl2RenderingContext::LINEAR as i32,
+        );
+        context.tex_parameteri(
+            WebGl2RenderingContext::TEXTURE_2D,
+            WebGl2RenderingContext::TEXTURE_WRAP_S,
+            WebGl2RenderingContext::CLAMP_TO_EDGE as i32,
+        );
+        context.tex_parameteri(
+            WebGl2RenderingContext::TEXTURE_2D,
+            WebGl2RenderingContext::TEXTURE_WRAP_T,
+            WebGl2RenderingContext::CLAMP_TO_EDGE as i32,
+        );
+
+        Ok(())
+    }
+
+    fn ensure_size_and_bind_fb(
+        &self,
+        context: &WebGl2RenderingContext,
+        width: u32,
+        height: u32,
+    ) -> Result<(), JsValue> {
+        if width != self.width || height != self.height {
+            context.bind_texture(WebGl2RenderingContext::TEXTURE_2D, Some(&self.tex));
+            Self::create_texture_with_size(context, width, height)?;
+        }
+
+        context.bind_framebuffer(WebGl2RenderingContext::FRAMEBUFFER, Some(&self.fb));
+        context.viewport(0, 0, width as i32, height as i32);
+        Ok(())
+    }
+}
 struct Rendering {
     circle_buffer: WebGlBuffer,
     circle_vao: WebGlVertexArrayObject,
@@ -53,6 +140,11 @@ struct Rendering {
     zoom: FT,
 
     visualization_params: Arc<Mutex<VisualizationParams>>,
+
+    // for metaball visualization
+    screen_quad_vao: WebGlVertexArrayObject,
+    fb_program: WebGlProgram,
+    fb_data: Option<FramebufferData>,
 
     frames: i32,
     start_timer: f64,
@@ -84,21 +176,24 @@ const CIRCLE_FRAGMENT_SHADER: &'static str = r##"#version 300 es
         out vec4 outColor;
         in vec2 frag_uv;
         in vec3 frag_color;
+
+        // 0=circle with border, 1=metaball 
+        uniform int draw_mode;
         
         void main() {
             vec2 dist2d = frag_uv - vec2(0.5, 0.5);
-            float dist = sqrt(dot(dist2d, dist2d)) - 0.5;
-            // float alpha = 0.0;
-            // if(dist < -0.01) { alpha = 1.0; }
-            // else if(dist < 0.0) { alpha = -dist / 0.01; }
-            // else { alpha = 0.0; }
-            if(dist > 0.) discard;
+            float dist = 2. * sqrt(dot(dist2d, dist2d));
+            if(dist > 1.) discard;
 
             vec3 color = frag_color;
-            if(dist > -0.06) color = vec3(0., 0., 0.);
 
-
-            outColor = vec4(color, 1.);
+            if(draw_mode == 0) {
+                if(dist > 1. - 0.12) color = vec3(0., 0., 0.);
+                outColor = vec4(color, 1.);
+            } else {
+                float alpha = 0.3 * (1. - dist);
+                outColor = vec4(color * alpha, alpha);
+            }
         }
         "##;
 
@@ -125,6 +220,38 @@ const LINE_FRAGMENT_SHADER: &'static str = r##"#version 300 es
         
         void main() {
             outColor = vec4(frag_color, 1.);
+        }
+        "##;
+
+const FRAMEBUFFER_VERTEX_SHADER: &'static str = r##"#version 300 es
+        in vec2 position;
+        in vec2 uv;
+
+        out vec2 frag_uv;
+
+        void main() {
+            frag_uv = uv;
+
+            gl_Position = vec4(position.x, position.y, 0., 1.);
+        }
+        "##;
+
+const FRAMEBUFFER_FRAGMENT_SHADER: &'static str = r##"#version 300 es
+        precision highp float;
+
+        out vec4 outColor;
+        in vec2 frag_uv;
+
+        uniform sampler2D tex;
+        
+        void main() {
+            vec4 tcolor = texture(tex, frag_uv);
+
+            if(tcolor.a > 0.08) {
+                outColor = vec4(tcolor.rgb / tcolor.a, 1.0);
+            } else {
+                outColor = vec4(1., 1., 1., 1.);
+            }
         }
         "##;
 
@@ -360,11 +487,17 @@ pub fn init_renderer(
         .unwrap()
         .dyn_into::<WebGl2RenderingContext>()?;
 
-    context.enable(WebGl2RenderingContext::BLEND);
-    context.blend_func(
-        WebGl2RenderingContext::SRC_ALPHA,
-        WebGl2RenderingContext::ONE_MINUS_SRC_ALPHA,
-    );
+    let fb_vert_shader = compile_shader(
+        &context,
+        WebGl2RenderingContext::VERTEX_SHADER,
+        FRAMEBUFFER_VERTEX_SHADER,
+    )?;
+    let fb_frag_shader = compile_shader(
+        &context,
+        WebGl2RenderingContext::FRAGMENT_SHADER,
+        FRAMEBUFFER_FRAGMENT_SHADER,
+    )?;
+    let fb_program = link_program(&context, &fb_vert_shader, &fb_frag_shader)?;
 
     let line_vert_shader = compile_shader(&context, WebGl2RenderingContext::VERTEX_SHADER, LINE_VERTEX_SHADER)?;
     let line_frag_shader = compile_shader(&context, WebGl2RenderingContext::FRAGMENT_SHADER, LINE_FRAGMENT_SHADER)?;
@@ -426,10 +559,6 @@ pub fn init_renderer(
     //     0.0, 1.0, 0.0, 1.0,
     // ];
 
-    let uv_attribute_location = context.get_attrib_location(&circle_program, "uv");
-    let position_attribute_location = context.get_attrib_location(&circle_program, "position");
-    let color_attribute_location = context.get_attrib_location(&circle_program, "color");
-
     let circle_buffer = context.create_buffer().ok_or("Failed to create buffer")?;
     context.bind_buffer(WebGl2RenderingContext::ARRAY_BUFFER, Some(&circle_buffer));
 
@@ -438,6 +567,9 @@ pub fn init_renderer(
         .ok_or("Could not create vertex array object")?;
     context.bind_vertex_array(Some(&circle_vao));
 
+    let uv_attribute_location = context.get_attrib_location(&circle_program, "uv");
+    let position_attribute_location = context.get_attrib_location(&circle_program, "position");
+    let color_attribute_location = context.get_attrib_location(&circle_program, "color");
     context.vertex_attrib_pointer_with_i32(
         position_attribute_location as u32,
         2,
@@ -466,7 +598,58 @@ pub fn init_renderer(
     context.enable_vertex_attrib_array(uv_attribute_location as u32);
     context.enable_vertex_attrib_array(color_attribute_location as u32);
 
-    context.bind_vertex_array(Some(&circle_vao));
+    let screen_quad_vao;
+    {
+        let screen_quad_buffer = context.create_buffer().ok_or("Failed to create buffer")?;
+        context.bind_buffer(WebGl2RenderingContext::ARRAY_BUFFER, Some(&screen_quad_buffer));
+
+        #[cfg_attr(rustfmt, rustfmt_skip)]
+        let screen_quad_vertices = [
+            -1., -1., 0., 0.,
+            1., -1., 1., 0.,
+            -1., 1., 0., 1.,
+
+            1., -1., 1., 0.,
+            -1., 1., 0., 1.,
+            1., 1., 1., 1.,
+        ];
+
+        unsafe {
+            let positions_array_buf_view = js_sys::Float32Array::view(&screen_quad_vertices);
+
+            context.buffer_data_with_array_buffer_view(
+                WebGl2RenderingContext::ARRAY_BUFFER,
+                &positions_array_buf_view,
+                WebGl2RenderingContext::STREAM_DRAW,
+            );
+        }
+
+        screen_quad_vao = context
+            .create_vertex_array()
+            .ok_or("Could not create vertex array object")?;
+        context.bind_vertex_array(Some(&screen_quad_vao));
+
+        let uv_attribute_location = context.get_attrib_location(&fb_program, "uv");
+        let position_attribute_location = context.get_attrib_location(&fb_program, "position");
+        context.vertex_attrib_pointer_with_i32(
+            position_attribute_location as u32,
+            2,
+            WebGl2RenderingContext::FLOAT,
+            false,
+            4 * 4,
+            0 * 4,
+        );
+        context.vertex_attrib_pointer_with_i32(
+            uv_attribute_location as u32,
+            2,
+            WebGl2RenderingContext::FLOAT,
+            false,
+            4 * 4,
+            2 * 4,
+        );
+        context.enable_vertex_attrib_array(position_attribute_location as u32);
+        context.enable_vertex_attrib_array(uv_attribute_location as u32);
+    }
 
     // draw(&context, vert_count);
 
@@ -501,6 +684,10 @@ pub fn init_renderer(
         zoom,
 
         visualization_params,
+
+        fb_program,
+        fb_data: None,
+        screen_quad_vao,
 
         frames: 0,
         start_timer: 0.,
@@ -583,6 +770,10 @@ pub fn render(time: f64) -> Result<(), JsValue> {
         transform_matrix,
         inv_transform_matrix,
         visualization_params,
+
+        fb_program,
+        fb_data,
+        screen_quad_vao,
         ..
     } = rendering_mutex_guard.as_mut().unwrap();
 
@@ -595,6 +786,7 @@ pub fn render(time: f64) -> Result<(), JsValue> {
     } = mutex_guard.as_mut().unwrap();
 
     let simulation_params = { *shared_simulation_params.lock().unwrap() };
+    let visualization_params = { *visualization_params.lock().unwrap() };
 
     type DU = DimensionUtils2d;
     const D: usize = 2;
@@ -611,12 +803,17 @@ pub fn render(time: f64) -> Result<(), JsValue> {
             simulation_params,
             Some(100.),
             &fluid_simulation.neighs,
-        *visualization_params.lock().unwrap(),
+            visualization_params,
         ));
+
+        let radius_factor: f32 = match visualization_params.draw_shape {
+            DrawShape::Metaball => 2.,
+            _ => 1.,
+        };
 
         points.push(Circle {
             pos,
-            radius,
+            radius: radius * radius_factor,
             rgb: color,
         });
     }
@@ -794,17 +991,68 @@ pub fn render(time: f64) -> Result<(), JsValue> {
     }
 
     context.use_program(Some(&circle_program));
-    let circle_transform_uniform_location = context.get_uniform_location(&circle_program, "transform");
     context.uniform_matrix3x2fv_with_f32_array(
-        circle_transform_uniform_location.as_ref(),
+        context.get_uniform_location(&circle_program, "transform").as_ref(),
         false,
         transform_matrix.as_slice(),
     );
 
-    context.bind_vertex_array(Some(&circle_vao));
-
     let vert_count = (circle_vertices.len() / 7) as i32;
-    context.draw_arrays(WebGl2RenderingContext::TRIANGLES, 0, vert_count);
+
+    match visualization_params.draw_shape {
+        DrawShape::Metaball => {
+            context.enable(WebGl2RenderingContext::BLEND);
+            context.blend_func(WebGl2RenderingContext::ONE, WebGl2RenderingContext::ONE);
+
+            context.uniform1i(context.get_uniform_location(&circle_program, "draw_mode").as_ref(), 1);
+
+            let this_fb_data = fb_data
+                .take()
+                .map_or_else(|| FramebufferData::new(context, canvas_width, canvas_height), Ok)?;
+
+            this_fb_data
+                .ensure_size_and_bind_fb(context, canvas_width, canvas_height)
+                .unwrap();
+
+            context.clear_color(0.0, 0.0, 0.0, 0.0);
+            context.clear(WebGl2RenderingContext::COLOR_BUFFER_BIT);
+
+            context.bind_vertex_array(Some(&circle_vao));
+            context.draw_arrays(WebGl2RenderingContext::TRIANGLES, 0, vert_count);
+
+            context.disable(WebGl2RenderingContext::BLEND);
+
+            // -----------------------------------------------------------------
+            // render metaball framebuffer to display framebuffer
+
+            context.bind_framebuffer(WebGl2RenderingContext::FRAMEBUFFER, None);
+            context.viewport(0, 0, canvas_width as i32, canvas_height as i32);
+
+            context.use_program(Some(&fb_program));
+
+            context.active_texture(WebGl2RenderingContext::TEXTURE0);
+            context.bind_texture(WebGl2RenderingContext::TEXTURE_2D, Some(&this_fb_data.tex));
+
+            context.bind_vertex_array(Some(&screen_quad_vao));
+            context.draw_arrays(WebGl2RenderingContext::TRIANGLES, 0, 6);
+
+            *fb_data = Some(this_fb_data);
+        }
+        _ => {
+            context.uniform1i(context.get_uniform_location(&circle_program, "draw_mode").as_ref(), 0);
+
+            context.enable(WebGl2RenderingContext::BLEND);
+            context.blend_func(
+                WebGl2RenderingContext::SRC_ALPHA,
+                WebGl2RenderingContext::ONE_MINUS_SRC_ALPHA,
+            );
+
+            context.bind_vertex_array(Some(&circle_vao));
+            context.draw_arrays(WebGl2RenderingContext::TRIANGLES, 0, vert_count);
+
+            context.disable(WebGl2RenderingContext::BLEND);
+        }
+    }
 
     // //////////////////////////////////////////////////////////////////////////////
     // Lines

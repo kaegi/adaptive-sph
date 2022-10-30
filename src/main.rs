@@ -1,4 +1,3 @@
-
 /*
 
 Talking points:
@@ -61,7 +60,6 @@ Pressure gradient formulation differs in IISPH/DFSPH for fluid-boundary interact
  *   - boundary term was only added in density_adv (not in density)
  *   - the boundary formula used velocity_adv instead of velocity
  */
-
 mod platform;
 mod simulation;
 

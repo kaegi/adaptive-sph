@@ -4,12 +4,13 @@ use crate::{
     adaptivity::{ParticleSizeClass, MERGE_PARTNER_AVAILABLE, MERGE_PARTNER_DELETE, PARTICLE_SIZE_FACTOR_LARGE},
     boundary_handler::{BoundaryHandler, BoundaryHandlerTrait},
     concurrency::{par_iter_mut1, par_iter_mut2},
+    floating_type_mod::FT,
     local_smoothing_length_from_mass,
     neighborhood_search::NeighborhoodCache,
     simulation_parameters::SimulationParams,
     sph_kernels::{smoothing_length, DimensionUtils},
     thread_safe_ptr::ThreadSafeMutPtr,
-    LevelEstimationState, ParticleVec, floating_type_mod::FT,
+    LevelEstimationState, ParticleVec,
 };
 
 pub fn find_merge_partner_sequential<DU: DimensionUtils<D>, const D: usize>(

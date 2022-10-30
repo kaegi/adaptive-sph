@@ -1,6 +1,5 @@
 use wasm_bindgen::prelude::wasm_bindgen;
 
-
 #[wasm_bindgen]
 extern "C" {
     // Use `js_namespace` here to bind `console.log(..)` instead of just
@@ -20,5 +19,5 @@ macro_rules! console_log {
 
 // pub(crate) use console_log;
 
-mod webgl_renderer;
 mod web_loop;
+mod webgl_renderer;

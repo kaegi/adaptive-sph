@@ -23,7 +23,7 @@ use crate::{
     sdf::Sdf,
     simulation_parameters::SimulationParams,
     sph_kernels::{support_radius_single, DimensionUtils, DimensionUtils2d, ParticleSizes, PARTICLE_SIZES},
-    vec2f, DrawShape, ParticleVec, SimulationVisualizer, VisualizationParams, VisualizedAttribute, V, V2, VF, M,
+    vec2f, DrawShape, ParticleVec, SimulationVisualizer, VisualizationParams, VisualizedAttribute, M, V, V2, VF,
 };
 
 pub struct SimulationWindow {
@@ -341,6 +341,9 @@ impl SimulationVisualizer<DimensionUtils2d, 2> for SimulationWindow {
                 }
 
                 match visualization_params.draw_shape {
+                    DrawShape::Metaball => {
+                        unimplemented!("metaball draw shape only implemented for WebAssembly/WebGL")
+                    }
                     DrawShape::FilledCircle => {
                         canvas
                             .filled_circle(

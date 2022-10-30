@@ -1,13 +1,13 @@
-
 use rstar::{primitives::GeomWithData, Point, RTree};
 
 const MAX_NEIGHBOR_COUNT: usize = 20000;
 
 use crate::{
     concurrency::par_iter_mut1,
+    floating_type_mod::FT,
     simulation_parameters::{NeighborhoodSearchAlgorithm, SimulationParams},
     sph_kernels::{smoothing_length, smoothing_length_single, DimensionUtils, ParticleSizes, PARTICLE_SIZES},
-    floating_type_mod::FT, V, VF, VI,
+    V, VF, VI,
 };
 
 pub struct NeighborhoodCache {
@@ -118,9 +118,7 @@ impl NeighborhoodCache {
 
         let rtree = RTree::<CustomRTreeElem<D>>::bulk_load(rtree_elems);
 
-
         let num_fluid_particles = fluid_particle_positions.len();
-
 
         par_iter_mut1(&mut self.neighs, |i, p_neighs| {
             p_neighs.clear();
@@ -239,7 +237,6 @@ impl NeighborhoodCache {
                 }
             }
         }
-
     }
 
     #[inline(always)]
@@ -353,7 +350,6 @@ pub fn build_neighborhood_list<DU: DimensionUtils<D>, const D: usize>(
             );
         }
     }
-
 }
 
 struct Cell {

@@ -10,10 +10,9 @@ use eframe::epaint::ahash::HashMap;
 
 use crate::{
     boundary_handler::BoundaryHandler, floating_type_mod::FT, generate_split_patterns, init_fluid_sim,
-    init_simulation_params, load_split_patterns_from_file,
-    properties_window::properties_window_main, simulation_parameters::SimulationParams, sph_kernels::DimensionUtils2d,
-    write_split_patterns_to_file, write_statistics, FluidSimulation, SceneConfig, SimulationVisualizer,
-    VisualizationParams,
+    init_simulation_params, load_split_patterns_from_file, properties_window::properties_window_main,
+    simulation_parameters::SimulationParams, sph_kernels::DimensionUtils2d, write_split_patterns_to_file,
+    write_statistics, FluidSimulation, SceneConfig, SimulationVisualizer, VisualizationParams,
 };
 
 use super::{animation, rendering::SimulationWindow, video_encoder::VideoEncoder, vtk_exporter::VtkExporter};

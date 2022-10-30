@@ -1,8 +1,8 @@
 use std::{
-    collections::{HashMap},
+    collections::HashMap,
     fs::{create_dir_all, remove_dir_all},
     io::Write,
-    path::{PathBuf, Path},
+    path::{Path, PathBuf},
     process::{Command, Stdio},
 };
 
@@ -14,12 +14,12 @@ use std::fs::File;
 use crate::{
     colors::{get_color_for_particle, get_color_map, get_color_map_for_pressure},
     floating_type_mod::FT,
-    init_fluid_sim, init_simulation_params,
+    init_fluid_sim, init_simulation_params, load_split_patterns_from_file,
     platform::desktop::animation::cairo_renderer::Legend,
     simulation_parameters::SimulationParams,
-    sph_kernels::{DimensionUtils2d},
-    write_statistics, SceneConfig, VisualizationParams, VisualizedAttribute,
-    VF, load_split_patterns_from_file, };
+    sph_kernels::DimensionUtils2d,
+    write_statistics, SceneConfig, VisualizationParams, VisualizedAttribute, VF,
+};
 
 use self::cairo_renderer::render2d;
 

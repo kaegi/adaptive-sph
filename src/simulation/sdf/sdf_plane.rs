@@ -1,4 +1,4 @@
-use crate::{floating_type_mod::FT, VF, vec2f};
+use crate::{floating_type_mod::FT, vec2f, VF};
 
 #[derive(Clone)]
 pub struct SdfPlane<const D: usize> {

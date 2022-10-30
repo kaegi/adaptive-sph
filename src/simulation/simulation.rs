@@ -2863,6 +2863,8 @@ pub enum DrawShape {
     FilledCircleWithBorder,
     FilledCircleWithAABorder,
     Cairo,
+
+    Metaball,
 }
 impl DrawShape {
     fn filled_circle_with_border() -> DrawShape {
